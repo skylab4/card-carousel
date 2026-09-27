@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-db:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     services:
       postgres:
         image: postgres:15
@@ -18,29 +20,41 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U postgres" 
+          --health-cmd "pg_isready -U postgres"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
+
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
+
       - name: Install API deps
         working-directory: apps/api
-        run: npm ci
+        run: npm install
+
+      - name: Commit lockfile if missing
+        run: |
+          git config user.email "copilot@example.com"
+          git config user.name "CardCarousel Bot"
+          git add apps/api/package-lock.json || true
+          git diff --staged --quiet || git commit -m "chore: add generated package-lock.json [skip ci]"
+          git push || true
+
       - name: Generate Prisma client
         working-directory: apps/api
         env:
           DATABASE_URL: postgresql://postgres:password@localhost:5432/cardcarousel?schema=public
         run: npx prisma generate
+
       - name: Push Prisma schema to DB
         working-directory: apps/api
         env:
           DATABASE_URL: postgresql://postgres:password@localhost:5432/cardcarousel?schema=public
         run: npx prisma db push --accept-data-loss
+
       - name: Build API
         working-directory: apps/api
         run: npm run build
