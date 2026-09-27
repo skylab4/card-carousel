@@ -1,4 +1,4 @@
-﻿import { Controller, Get, Query, Param, ParseIntPipe } from "@nestjs/common";
+import { Controller, Get, Query, Param, ParseIntPipe } from "@nestjs/common";
 import { CardsService } from "./cards.service";
 import { Public } from "../common/decorators/public.decorator";
 
@@ -6,7 +6,6 @@ import { Public } from "../common/decorators/public.decorator";
 export class CardsController {
   constructor(private svc: CardsService) {}
 
-  /** GET /api/v1/cards?q=199+Charizard+MEW&franchise=pokemon */
   @Public()
   @Get()
   search(@Query("q") q: string, @Query("franchise") franchise?: string) {

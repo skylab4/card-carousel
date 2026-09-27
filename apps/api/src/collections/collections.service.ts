@@ -1,4 +1,4 @@
-﻿import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
@@ -6,10 +6,7 @@ export class CollectionsService {
   constructor(private prisma: PrismaService) {}
 
   findAll(userId: number) {
-    return this.prisma.collection.findMany({
-      where: { userId },
-      include: { items: { include: { variant: { include: { card: true } } } } },
-    });
+    return this.prisma.collection.findMany({ where: { userId }, include: { items: { include: { variant: { include: { card: true } } } } } });
   }
 
   async findOne(userId: number, id: number) {

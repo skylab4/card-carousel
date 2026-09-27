@@ -1,4 +1,4 @@
-﻿import { Controller, Post, Body, HttpCode } from "@nestjs/common";
+import { Controller, Post, Body, HttpCode } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { Public } from "../common/decorators/public.decorator";
 

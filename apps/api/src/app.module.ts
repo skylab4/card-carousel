@@ -1,4 +1,4 @@
-﻿import { Module } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
 import { AuthModule } from "./auth/auth.module";
 import { CollectionsModule } from "./collections/collections.module";

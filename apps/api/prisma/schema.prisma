@@ -1,4 +1,4 @@
-﻿generator client {
+generator client {
   provider = "prisma-client-js"
 }
 
@@ -8,10 +8,10 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  email       String       @unique
+  id          Int            @id @default(autoincrement())
+  email       String         @unique
   password    String
-  createdAt   DateTime     @default(now())
+  createdAt   DateTime       @default(now())
   collections Collection[]
   wishlist    WishlistItem[]
 }
@@ -42,13 +42,13 @@ model Card {
 }
 
 model CardVariant {
-  id             Int              @id @default(autoincrement())
-  cardId         Int
-  rarity         String
-  imageUrl       String?
-  card           Card             @relation(fields: [cardId], references: [id])
+  id              Int              @id @default(autoincrement())
+  cardId          Int
+  rarity          String
+  imageUrl        String?
+  card            Card             @relation(fields: [cardId], references: [id])
   collectionItems CollectionItem[]
-  wishlistItems  WishlistItem[]
+  wishlistItems   WishlistItem[]
 }
 
 model Collection {
